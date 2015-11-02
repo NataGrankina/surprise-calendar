@@ -1,7 +1,10 @@
 /* Base Application Styles */
-body {
-  color: #fff;
-}
+html, body{
+      margin:0;
+      padding:0;
+      height:100%;
+      border:none
+   }
 
 .index img {
   margin: 40px auto;
@@ -15,5 +18,62 @@ body {
   text-align: center;
   border: 1px solid #000;
   border-width: 1px 0;
-  background: #666;
+}
+
+.calendar-container {
+  padding: 0 10px;
+  width: 100%;
+  
+  .month-table {
+    table-layout: fixed;
+    tbody {
+      td {
+        height: 90px;
+        padding: 5px;
+      }
+    }
+  }
+  .day-names-container {
+    padding: 0;    
+  }  
+  .day-names-table {
+      width: 100%;
+      text-align: center;
+      table-layout: fixed;
+  }
+
+    .hours-container {
+      padding: 0;
+      border: 1px solid #ddd;
+      border-bottom-style: none;
+
+      .hour-box {
+        font-size: 12px;
+        padding: 2px;
+        border-bottom: 1px solid #ddd;
+        height: 40px;
+        text-align: right;
+        width: 100%;    
+      }               
+    }
+    .events-container {
+      padding: 0;
+      border-top: 1px solid #ddd;
+      .week-day-events-container {
+        width: 14.28%;
+        display: inline-block;
+      }
+      .hour-events-box {
+        font-size: 12px;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        height: 40px;
+        width: 100%; 
+        .half-hour-box {
+          height: 50%;
+          width: 100%;
+          border-bottom: 1px solid #EFEFEF;
+        }  
+      }
+    }
 }
