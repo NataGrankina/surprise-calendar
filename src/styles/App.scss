@@ -5,21 +5,6 @@ html, body{
       height:100%;
       border:none
    }
-
-.index img {
-  margin: 40px auto;
-  border-radius: 4px;
-  display: block;
-}
-
-.index .notice {
-  margin: 20px auto;
-  padding: 15px 0;
-  text-align: center;
-  border: 1px solid #000;
-  border-width: 1px 0;
-}
-
 .calendar-container {
   padding: 0 10px;
   width: 100%;
@@ -59,6 +44,9 @@ html, body{
     .events-container {
       padding: 0;
       border-top: 1px solid #ddd;
+      .current-day {
+        background-color: #EBF9F9;
+      }
       .week-day-events-container {
         width: 14.28%;
         display: inline-block;
@@ -68,12 +56,29 @@ html, body{
         border-right: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
         height: 40px;
-        width: 100%; 
+        width: 100%;         
         .half-hour-box {
           height: 50%;
-          width: 100%;
-          border-bottom: 1px solid #EFEFEF;
+          width: 100%;          
         }  
       }
+     .hour-events-box .half-hour-box:nth-child(odd) {
+        border-bottom: 1px solid #EFEFEF;
+      }
+    }
+    .event {
+      position: absolute;
+      left: 0;
+      right: 0;
+      padding: 2px;
+      background-color: pink;
+      border: 1px solid hotpink;
+      opacity: 0.7;
+    }
+    .create-event-box {
+      width: 300px;
+    }
+    .day-events {
+      position: relative;
     }
 }

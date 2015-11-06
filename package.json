@@ -59,12 +59,14 @@
   "dependencies": {
     "alt": "^0.17.6",
     "lodash": "^3.10.1",
+    "moment": "^2.10.6",
     "node-sass": "^3.3.3",
     "normalize.css": "^3.0.3",
     "react": "^0.14.1",
     "react-addons-test-utils": "^0.14.0",
     "react-bootstrap": "^0.27.3",
     "react-dom": "^0.14.0",
+    "reactable-popover": "^0.1.8",
     "sass-loader": "^1.0.1"
   }
 }

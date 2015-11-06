@@ -1,10 +1,11 @@
 import alt from '../components/Dispatcher';
 import CalendarActions from '../actions/CalendarActions';
 import CaledarConstants from '../constants/CalendarConstants';
+import moment from 'moment';
 
 class CalendarStore {
   constructor() { 
-  	this.today = new Date();
+  	this.today = moment();
   	this.selectedDay = this.today;
 
   	this.tabs = [
@@ -15,27 +16,21 @@ class CalendarStore {
 	this.selectedTab = 3;
 
   	this.bindListeners({
-      handleUpdateMonth: CalendarActions.UPDATE_MONTH
-    }); 
-    this.bindListeners({
-      handleUpdateWeek: CalendarActions.UPDATE_WEEK
-    }); 
-    this.bindListeners({
-      handleUpdateDate: CalendarActions.UPDATE_DATE
-    }); 
-    this.bindListeners({
+      handleUpdateMonth: CalendarActions.UPDATE_MONTH,
+      handleUpdateWeek: CalendarActions.UPDATE_WEEK,
+      handleUpdateDate: CalendarActions.UPDATE_DATE,
       handleSelectTab: CalendarActions.SELECT_TAB
     }); 
   }
 
   handleUpdateMonth(diff) {
-  	this.selectedDay.setDate(1);
+  	this.selectedDay.date(1);
     this.updateMonth(diff);
   }
 
   updateMonth(diff) {
-  	var month = this.selectedDay.getMonth();
-  	var year = this.selectedDay.getFullYear();
+  	var month = this.selectedDay.month();
+  	var year = this.selectedDay.year();
   	month += diff;
     while (month > 11) {
     	month -= 12;
@@ -46,15 +41,19 @@ class CalendarStore {
     	year--;
     }
 
-    this.selectedDay = new Date(year, month, this.selectedDay.getDate());
+    this.selectedDay = moment({
+    	year: year, 
+    	month: month,
+    	date: this.selectedDay.date()
+    });
   }
 
   handleUpdateWeek(diff) {
-  	this.selectedDay.setDate(this.selectedDay.getDate() + diff * 7)
+  	this.selectedDay.add(diff, 'week');
   }
 
   handleUpdateDate(diff) {
-  	this.selectedDay.setDate(this.selectedDay.getDate() + diff);
+  	this.selectedDay.add(diff, 'day');
   }
 
   handleSelectTab(tab) {

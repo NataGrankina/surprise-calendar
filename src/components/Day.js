@@ -1,9 +1,6 @@
 require('normalize.css');
 require('styles/App.scss');
 
-
-var CalendarConstants = require('../constants/CalendarConstants');
-
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import DayEvents from './DayEvents';
@@ -17,7 +14,7 @@ class DayComponent extends React.Component {
     			<DayHours />
     		</Col>
     		<Col className="events-container" lg={11} md={11} sm={11} xs={11}>
-    			<DayEvents />
+    			<DayEvents day={this.props.day} events={this.props.events} saveEvent={this.props.saveEvent}/>
     		</Col>
     	</div>
     );

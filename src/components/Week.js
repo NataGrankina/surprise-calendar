@@ -1,7 +1,7 @@
 require('normalize.css');
 require('styles/App.scss');
 
-import CalendarConstants from '../constants/CalendarConstants';
+import { getFirstWeekDay } from '../constants/CalendarConstants';
 
 import React from 'react';
 import { Col } from 'react-bootstrap';
@@ -10,19 +10,21 @@ import DayHours from './DayHours';
 
 class WeekComponent extends React.Component {
   render() {
-    var selectedDay = this.props.selectedDay;
-
-    var sunday = new Date(
-      selectedDay.getFullYear(), 
-      selectedDay.getMonth(),
-      selectedDay.getDate());
-    sunday.setDate(selectedDay.getDate() - selectedDay.getDay());
+    var today = this.props.today;
+    var sunday = getFirstWeekDay(this.props.selectedDay);
 
     var dayHeaders = [], days = [];
-    for (let i = 0; i < 7; i++) { 
-      selectedDay.setDate(selectedDay.getDate() + 1);    
-      dayHeaders.push(<td key={i}>{CalendarConstants.shortWeekDays[i]} {selectedDay.toLocaleDateString()}</td>); 
-      days.push(<div className="week-day-events-container"><DayEvents /></div>);
+    for (let i = 0; i < 7; i++) {   
+      dayHeaders.push(<td key={i}>{sunday.format("ddd M/D")}</td>); 
+      days.push(
+        <div className="week-day-events-container">
+          <DayEvents 
+            day={sunday.clone()} 
+            saveEvent={this.props.saveEvent} 
+            events={this.props.events.filter(this.props.isSelectedDayEvent.bind(this, sunday.clone()))}
+          />
+        </div>);
+      sunday.add(1, 'day');
     }
     
     return (

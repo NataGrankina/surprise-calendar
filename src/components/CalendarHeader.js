@@ -2,42 +2,28 @@ require('normalize.css');
 require('styles/App.scss');
 
 var CalendarStore = require('../stores/CalendarStore');
-var CalendarConstants = require('../constants/CalendarConstants');
 
 import React from 'react';
 import { NavBrand, Navbar, NavItem, Nav, ButtonGroup, Button } from 'react-bootstrap';
+import { getFirstWeekDay, getLastWeekDay } from '../constants/CalendarConstants';
 
 class CalendarHeaderComponent extends React.Component {
   render() {	
     var selectedDay = this.props.selectedDay;
-    var year = selectedDay.getFullYear();
-    var month = selectedDay.getMonth();
-    var date = selectedDay.getDate();
+    var sunday = getFirstWeekDay(selectedDay);
+    var saturday = getLastWeekDay(selectedDay);
 
-    var sunday = new Date(
-      selectedDay.getFullYear(), 
-      selectedDay.getMonth(),
-      selectedDay.getDate());
-    sunday.setDate(selectedDay.getDate() - selectedDay.getDay());
-
-    var saturday = new Date(
-      sunday.getFullYear(), 
-      sunday.getMonth(),
-      sunday.getDate());
-    saturday.setDate(selectedDay.getDate() + 5);
-
-    var selectedWeekDay = CalendarConstants.fullWeekDays[selectedDay.getDay()];
     var selectedTab = this.props.selectedTab;
     return (         
       <Navbar>
         {this.props.selectedTab === 3 
-            ? <NavBrand><a>{CalendarConstants.month[month]} {year}</a></NavBrand>
+            ? <NavBrand><a>{selectedDay.format("MMMM YYYY")}</a></NavBrand>
             : null}
         {this.props.selectedTab === 2 
-            ? <NavBrand><a>{sunday.toDateString()} - {saturday.toDateString()}</a></NavBrand>
+            ? <NavBrand><a>{sunday.format("ddd, MMMM D, YYYY")} - {saturday.format("ddd, MMMM D, YYYY")}</a></NavBrand>
             : null}
         {this.props.selectedTab === 1 
-            ? <NavBrand><a>{selectedWeekDay}, {CalendarConstants.month[month]} {date}, {year}</a></NavBrand>
+            ? <NavBrand><a>{selectedDay.format("dddd, MMMM Do YYYY")}</a></NavBrand>
             : null}
         <Nav>
           <NavItem eventKey={1} href="#" onClick={this.props.previousPeriod}>Previous</NavItem>

@@ -1,22 +1,18 @@
 require('normalize.css');
 require('styles/App.scss');
 
-
-var CalendarConstants = require('../constants/CalendarConstants');
-
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import { daysInMonth, shortWeekDays } from '../constants/CalendarConstants';
 
 
 class MonthComponent extends React.Component {
   render() {
     var selectedDay = this.props.selectedDay;
-  	var year = selectedDay.getFullYear();
-  	var month = selectedDay.getMonth();
 
-  	var firstDay = new Date(year, month, 1);
-  	var startingDay = firstDay.getDay();
-  	var monthLength = CalendarConstants.daysInMonth(month, year);
+  	var firstDay = selectedDay.clone().date(1);
+  	var startingDay = firstDay.day();
+  	var monthLength = selectedDay.daysInMonth();
 
   	var day = 1;
   	var weeks = [];
@@ -40,7 +36,7 @@ class MonthComponent extends React.Component {
       <div>
         <table className="day-names-table">
               <thead>
-                <tr>{CalendarConstants.shortWeekDays.map((weekDay, index) => <td key={index}>{weekDay}</td>)}</tr>
+                <tr>{shortWeekDays.map((weekDay, index) => <td key={index}>{weekDay}</td>)}</tr>
               </thead>
         </table>
       	<Table className="month-table" bordered condensed>
