@@ -1,6 +1,5 @@
 import alt from '../components/Dispatcher';
 import CalendarActions from '../actions/CalendarActions';
-import CaledarConstants from '../constants/CalendarConstants';
 import moment from 'moment';
 
 class CalendarStore {

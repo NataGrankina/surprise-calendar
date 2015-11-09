@@ -4,27 +4,35 @@ import EventSource from '../sources/EventSource';
 class EventActions {
   addEvent(event) {
     EventSource.addEvent(event)
-      .then((events) => {
-        // we can access other actions within our action through `this.actions`
-        this.actions.updateEvents(events);
+      .then(event => {
+        this.dispatch(event);
       })
-      .catch((errorMessage) => {
+      .catch(errorMessage => {
         this.actions.eventsFailed(errorMessage);
       });
   }
-  
+
+  deleteEvent(event) {
+    EventSource.deleteEvent(event)
+      .then(event => {
+        this.dispatch(event._id);
+      })
+      .catch(errorMessage => {
+        this.actions.eventsFailed(errorMessage);
+      });
+  }
+
   updateEvents(events) {
     this.dispatch(events);
   }
+
   fetchEvents() {
-  // we dispatch an event here so we can have "loading" state.
     this.dispatch();
     EventSource.fetch()
       .then((events) => {
-        // we can access other actions within our action through `this.actions`
         this.actions.updateEvents(events);
       })
-      .catch((errorMessage) => {
+      .catch(errorMessage => {
         this.actions.eventsFailed(errorMessage);
       });
   }

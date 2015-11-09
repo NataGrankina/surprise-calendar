@@ -1,6 +1,6 @@
 import alt from '../components/Dispatcher';
 import EventActions from '../actions/EventActions';
-import CaledarConstants from '../constants/CalendarConstants';
+import _ from 'lodash';
 
 class EventStore {
   constructor() { 
@@ -10,7 +10,9 @@ class EventStore {
   	this.bindListeners({
       handleUpdateEvents: EventActions.UPDATE_EVENTS,
       handleFetchEvents: EventActions.FETCH_EVENTS,
-      handleEventsFailed: EventActions.EVENTS_FAILED
+      handleEventsFailed: EventActions.EVENTS_FAILED,
+      handleAddEvent: EventActions.ADD_EVENT,
+      handleDeleteEvent: EventActions.DELETE_EVENT
     }); 
   }
 
@@ -25,6 +27,16 @@ class EventStore {
 
   handleEventsFailed(errorMessage) {
     this.errorMessage = errorMessage;
+  }
+
+  handleAddEvent(event) {
+    this.events.push(event);
+    this.errorMessage = null;
+  }
+
+  handleDeleteEvent(eventId) {
+    _.remove(this.events, event => event._id === eventId);
+    this.errorMessage = null;
   }
 }
 

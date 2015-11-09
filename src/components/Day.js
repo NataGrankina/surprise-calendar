@@ -14,7 +14,11 @@ class DayComponent extends React.Component {
     			<DayHours />
     		</Col>
     		<Col className="events-container" lg={11} md={11} sm={11} xs={11}>
-    			<DayEvents day={this.props.day} events={this.props.events} saveEvent={this.props.saveEvent}/>
+    			<DayEvents 
+    				day={this.props.day} 
+    				events={this.props.events} 
+    				saveEvent={this.props.saveEvent}
+    				deleteEvent={this.props.deleteEvent} />
     		</Col>
     	</div>
     );

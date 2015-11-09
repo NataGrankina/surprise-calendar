@@ -3,15 +3,17 @@ require('styles/App.scss');
 
 import React from 'react';
 import { Table } from 'react-bootstrap';
-import { daysInMonth, shortWeekDays } from '../constants/CalendarConstants';
+import BriefDayEvents from './BriefDayEvents';
+import EventHelper from '../helpers/EventHelper';
+import moment from 'moment';
 
 
 class MonthComponent extends React.Component {
   render() {
     var selectedDay = this.props.selectedDay;
 
-  	var firstDay = selectedDay.clone().date(1);
-  	var startingDay = firstDay.day();
+  	var currentDay = selectedDay.clone().date(1);
+  	var startingDay = currentDay.day();
   	var monthLength = selectedDay.daysInMonth();
 
   	var day = 1;
@@ -24,9 +26,19 @@ class MonthComponent extends React.Component {
       			value = day;
       			day++;
     		}	
-    		days.push(<td>{value}</td>);    
+    		days.push(
+          <td key={i + '-' + j}>
+            <div className="date">{value}</div>
+            <div className="day-events">
+              <BriefDayEvents 
+                events={this.props.events.filter(EventHelper.doesEventBelongToDay.bind(null, currentDay.clone()))} 
+                deleteEvent={this.props.deleteEvent}
+                maxHeight={70} />
+            </div>
+          </td>); 
+        currentDay.date(day);   
   		}
-  		weeks.push(<tr>{days}</tr>);
+  		weeks.push(<tr key={i}>{days}</tr>);
   		if (day > monthLength) {
     		break;
 		}
@@ -36,7 +48,7 @@ class MonthComponent extends React.Component {
       <div>
         <table className="day-names-table">
               <thead>
-                <tr>{shortWeekDays.map((weekDay, index) => <td key={index}>{weekDay}</td>)}</tr>
+                <tr>{moment.weekdaysShort().map((weekDay, index) => <td key={index}>{weekDay}</td>)}</tr>
               </thead>
         </table>
       	<Table className="month-table" bordered condensed>

@@ -1,30 +1,32 @@
 require('normalize.css');
 require('styles/App.scss');
 
-import { getFirstWeekDay } from '../constants/CalendarConstants';
+import moment from 'moment';
 
 import React from 'react';
 import { Col } from 'react-bootstrap';
 import DayEvents from './DayEvents';
 import DayHours from './DayHours';
+import EventHelper from '../helpers/EventHelper'
 
 class WeekComponent extends React.Component {
   render() {
     var today = this.props.today;
-    var sunday = getFirstWeekDay(this.props.selectedDay);
+    var day = this.props.selectedDay.clone().startOf('week');
 
     var dayHeaders = [], days = [];
-    for (let i = 0; i < 7; i++) {   
-      dayHeaders.push(<td key={i}>{sunday.format("ddd M/D")}</td>); 
+    for (var i = 0; i < 7; i++) {   
+      dayHeaders.push(<td key={i}>{day.format("ddd M/D")}</td>); 
       days.push(
-        <div className="week-day-events-container">
-          <DayEvents 
-            day={sunday.clone()} 
+        <div key={i} className="week-day-events-container">
+          <DayEvents             
+            day={day.clone()} 
             saveEvent={this.props.saveEvent} 
-            events={this.props.events.filter(this.props.isSelectedDayEvent.bind(this, sunday.clone()))}
+            deleteEvent={this.props.deleteEvent}
+            events={this.props.events.filter(EventHelper.doesEventBelongToDay.bind(null, day.clone()))}
           />
         </div>);
-      sunday.add(1, 'day');
+      day.add(1, 'day');
     }
     
     return (

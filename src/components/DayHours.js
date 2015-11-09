@@ -9,7 +9,7 @@ class DayHoursComponent extends React.Component {
   	var events = [];
   	var hours = [];
     for (var i = 0; i < 24; i++) {      
-      hours.push(<div className="hour-box">{i}:00</div>);
+      hours.push(<div key={i} className="hour-box">{i}:00</div>);
     }
     return (
     		<div>{hours}</div>

@@ -1,26 +1,69 @@
 import moment from 'moment';
-var id = 1;
-var events = [];
 
 var EventSource = {
   fetch: function() {
-    // returning a Promise because that is what fetch does.
     return new Promise(function (resolve, reject) {
-      // simulate an asynchronous action where data is fetched on
-      // a remote server somewhere.
-      setTimeout(function () {
-        // resolve with some mock data
+      $.ajax({
+       type: "GET",
+       dataType: "json",
+       url: 'http://localhost:3000/events/',
+       success: function (response) {
+        var events = response.data;
+        events.forEach(event => {
+          event.start = moment(event.start);
+          event.end = moment(event.end);
+        });
         resolve(events);
-      }, 250);
+       },
+       error: function (request, textStatus, errorThrown) {
+           reject(errorThrown);
+       }
+      });
     });
   },
   addEvent: function(event) {
     return new Promise(function (resolve, reject) {
-      event.id = id++;
-      events.push(event);
-      setTimeout(function () {
-        resolve(events);
-      }, 250);
+      $.ajax({
+       type: "POST",
+       data: JSON.stringify(event),
+       contentType: 'application/json',
+       dataType: "json",
+       url: 'http://localhost:3000/events',
+       success: function (response) {
+           if (!response.error) {
+            var event = response.data;
+            event.start = moment(event.start);
+            event.end = moment(event.end);
+            resolve(event);
+           } else {
+            reject(response.message);
+           }
+       },
+       error: function (request, textStatus, errorThrown) {
+           reject(errorThrown);
+       }
+      });
+    });
+  },
+  deleteEvent: function(event) {
+    return new Promise(function (resolve, reject) {
+      $.ajax({
+       type: "DELETE",
+       contentType: 'application/json',
+       dataType: "json",
+       url: 'http://localhost:3000/events/' + event._id,
+       success: function (response) {   
+          if (!response.error) {        
+            resolve(event);
+           } 
+           else {
+            reject(response.message);
+           }
+       },
+       error: function (request, textStatus, errorThrown) {
+           reject(errorThrown);
+       }
+      });
     });
   }
 };

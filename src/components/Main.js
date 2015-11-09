@@ -42,6 +42,10 @@ class AppComponent extends React.Component {
   	EventActions.addEvent(event);
   }
 
+  deleteEvent(event) {
+  	EventActions.deleteEvent(event);
+  }
+
   updatePeriod(diff) {
   	switch (this.state.calendar.selectedTab) {
   		case 1: 
@@ -69,15 +73,14 @@ class AppComponent extends React.Component {
         	selectTab={this.selectTab}
         	selectedDay={this.state.calendar.selectedDay}
         	nextPeriod={this.updatePeriod.bind(this, 1)} 
-        	previousPeriod={this.updatePeriod.bind(this, -1)} 
-        />
+        	previousPeriod={this.updatePeriod.bind(this, -1)} />
         <Calendar 
         	selectedTab={this.state.calendar.selectedTab}
         	selectedDay={this.state.calendar.selectedDay}
         	today={this.state.calendar.today}
         	events={this.state.events.events} 
         	saveEvent={this.saveEvent} 
-        />
+        	deleteEvent={this.deleteEvent} />
       </div>
     );
   }

@@ -5,13 +5,12 @@ var CalendarStore = require('../stores/CalendarStore');
 
 import React from 'react';
 import { NavBrand, Navbar, NavItem, Nav, ButtonGroup, Button } from 'react-bootstrap';
-import { getFirstWeekDay, getLastWeekDay } from '../constants/CalendarConstants';
 
 class CalendarHeaderComponent extends React.Component {
   render() {	
     var selectedDay = this.props.selectedDay;
-    var sunday = getFirstWeekDay(selectedDay);
-    var saturday = getLastWeekDay(selectedDay);
+    var sunday = selectedDay.clone().startOf('week');
+    var saturday = selectedDay.clone().endOf('week');
 
     var selectedTab = this.props.selectedTab;
     return (         
