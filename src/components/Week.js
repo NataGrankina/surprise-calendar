@@ -21,6 +21,7 @@ class WeekComponent extends React.Component {
         <div key={i} className="week-day-events-container">
           <DayEvents             
             day={day.clone()} 
+            today={this.props.today}
             saveEvent={this.props.saveEvent} 
             deleteEvent={this.props.deleteEvent}
             events={this.props.events.filter(EventHelper.doesEventBelongToDay.bind(null, day.clone()))}

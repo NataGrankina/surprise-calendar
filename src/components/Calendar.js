@@ -30,6 +30,7 @@ class CalendarComponent extends React.Component {
           {this.props.selectedTab === 1
             ? <Day 
                 day={this.props.selectedDay} 
+                today={this.props.today} 
                 events={this.props.events.filter(EventHelper.doesEventBelongToDay.bind(null, day.clone()))}
                 saveEvent={this.props.saveEvent}
                 deleteEvent={this.props.deleteEvent} />

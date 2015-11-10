@@ -62,8 +62,10 @@ class DayEventsComponent extends React.Component {
         );
   	}
 
+    var isToday = day.isSame(this.props.today, 'day');
+
     return (
-    		<div className="day-events">
+    		<div className={isToday ? "day-events current-day" : "day-events"}>
           <Overlay
             show={!!this.state.newEvent}
             onHide={this.clear}

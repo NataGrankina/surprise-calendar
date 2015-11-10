@@ -43,10 +43,7 @@ html, body{
     }
     .events-container {
       padding: 0;
-      border-top: 1px solid #ddd;
-      .current-day {
-        background-color: #EBF9F9;
-      }
+      border-top: 1px solid #ddd;      
       .week-day-events-container {
         width: 14.28%;
         display: inline-block;
@@ -101,5 +98,8 @@ html, body{
     }
     .event:hover .event-delete { 
       opacity: 1;
+    }
+    .current-day {
+        background-color: #F7E8E8;
     }
 }

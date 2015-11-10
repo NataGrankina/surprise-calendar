@@ -15,6 +15,7 @@ class DayComponent extends React.Component {
     		</Col>
     		<Col className="events-container" lg={11} md={11} sm={11} xs={11}>
     			<DayEvents 
+    				today={this.props.today}
     				day={this.props.day} 
     				events={this.props.events} 
     				saveEvent={this.props.saveEvent}

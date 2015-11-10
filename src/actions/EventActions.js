@@ -1,10 +1,13 @@
 var alt = require('../components/Dispatcher');
 import EventSource from '../sources/EventSource';
+import moment from 'moment';
 
 class EventActions {
   addEvent(event) {
     EventSource.addEvent(event)
       .then(event => {
+        event.start = moment(event.start);
+        event.end = moment(event.end);
         this.dispatch(event);
       })
       .catch(errorMessage => {
@@ -14,7 +17,7 @@ class EventActions {
 
   deleteEvent(event) {
     EventSource.deleteEvent(event)
-      .then(event => {
+      .then(() => {
         this.dispatch(event._id);
       })
       .catch(errorMessage => {
@@ -30,6 +33,10 @@ class EventActions {
     this.dispatch();
     EventSource.fetch()
       .then((events) => {
+        events.forEach(event => {
+          event.start = moment(event.start);
+          event.end = moment(event.end);
+        });
         this.actions.updateEvents(events);
       })
       .catch(errorMessage => {

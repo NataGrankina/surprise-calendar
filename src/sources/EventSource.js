@@ -2,70 +2,46 @@ import moment from 'moment';
 
 var EventSource = {
   fetch: function() {
-    return new Promise(function (resolve, reject) {
-      $.ajax({
-       type: "GET",
-       dataType: "json",
-       url: 'http://localhost:3000/events/',
-       success: function (response) {
-        var events = response.data;
-        events.forEach(event => {
-          event.start = moment(event.start);
-          event.end = moment(event.end);
-        });
-        resolve(events);
-       },
-       error: function (request, textStatus, errorThrown) {
-           reject(errorThrown);
-       }
-      });
-    });
+    return makeAjaxRequest(
+      'http://localhost:3000/events/', 
+      'GET', 
+      null);
   },
   addEvent: function(event) {
-    return new Promise(function (resolve, reject) {
-      $.ajax({
-       type: "POST",
-       data: JSON.stringify(event),
-       contentType: 'application/json',
-       dataType: "json",
-       url: 'http://localhost:3000/events',
-       success: function (response) {
-           if (!response.error) {
-            var event = response.data;
-            event.start = moment(event.start);
-            event.end = moment(event.end);
-            resolve(event);
-           } else {
-            reject(response.message);
-           }
-       },
-       error: function (request, textStatus, errorThrown) {
-           reject(errorThrown);
-       }
-      });
-    });
+    return makeAjaxRequest(
+      'http://localhost:3000/events', 
+      'POST', 
+      JSON.stringify(event));
   },
   deleteEvent: function(event) {
-    return new Promise(function (resolve, reject) {
+    return makeAjaxRequest(
+      'http://localhost:3000/events/' + event._id, 
+      'DELETE', 
+      null);
+  }
+};
+
+function makeAjaxRequest(url, type, data) {
+  return new Promise(function (resolve, reject) {
       $.ajax({
-       type: "DELETE",
+       type: type,
+       data: data,
        contentType: 'application/json',
        dataType: "json",
-       url: 'http://localhost:3000/events/' + event._id,
-       success: function (response) {   
-          if (!response.error) {        
-            resolve(event);
-           } 
-           else {
+       url: url,
+       success: function (response) {
+          if (!response.error) {
+            resolve(response.data);
+          } 
+          else {
             reject(response.message);
-           }
+          }
        },
        error: function (request, textStatus, errorThrown) {
            reject(errorThrown);
        }
       });
     });
-  }
-};
+}
 
 export default EventSource;

@@ -26,8 +26,11 @@ class MonthComponent extends React.Component {
       			value = day;
       			day++;
     		}	
+
+        var isToday = currentDay.isSame(this.props.today, 'day');
+
     		days.push(
-          <td key={i + '-' + j}>
+          <td key={i + '-' + j} className={isToday ? "current-day" : ""}>
             <div className="date">{value}</div>
             <div className="day-events">
               <BriefDayEvents 

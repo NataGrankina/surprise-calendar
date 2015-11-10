@@ -5,7 +5,7 @@ import moment from 'moment';
 class CalendarStore {
   constructor() { 
   	this.today = moment();
-  	this.selectedDay = this.today;
+  	this.selectedDay = moment();
 
   	this.tabs = [
     	{ 'id': 1, 'name': 'Day' },
